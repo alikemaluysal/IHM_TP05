@@ -11,16 +11,13 @@ class MainWindow(QMainWindow):
 		menuBar = self.menuBar()
 		file_menu = menuBar.addMenu("File")
 
-
 		open_action = QAction(QIcon("open.png"), "Open", self)
 		open_action.setShortcut("Ctrl+O")
 		open_action.setStatusTip("Open")
-		open_action.triggered.connect(self.openFile)
 
 		save_action = QAction(QIcon("save.png"), "Save", self)
 		save_action.setShortcut("Ctrl+S")
 		save_action.setStatusTip("Save")
-		save_action.triggered.connect(self.saveFile)
 
 		copy_action = QAction(QIcon("copy.png"), "Copy", self)
 		copy_action.setShortcut("Ctrl+C")
@@ -29,8 +26,6 @@ class MainWindow(QMainWindow):
 		quit_action = QAction(QIcon("quit.png"), "Quit", self)
 		quit_action.setShortcut("Ctrl+Q")
 		quit_action.setStatusTip("Quit")
-		quit_action.triggered.connect(self.quitApp)
-
 
 		file_menu.addAction(open_action)
 		file_menu.addAction(save_action)
@@ -44,11 +39,16 @@ class MainWindow(QMainWindow):
 		toolbar.addAction(copy_action)
 		toolbar.addAction(quit_action)
 
-
-		textEdit = QTextEdit()
-		self.setCentralWidget(textEdit)
+		self.textEdit = QTextEdit()
+		self.setCentralWidget(self.textEdit)
 
 		self.statusBar().showMessage("Ready")
+
+		open_action.triggered.connect(self.openFile)
+		save_action.triggered.connect(self.saveFile)
+		quit_action.triggered.connect(self.quitApp)
+
+
 
 
 	def openFile(self):
@@ -57,11 +57,17 @@ class MainWindow(QMainWindow):
 			self,
 			"Open File",
 			"",
-			"All Files (*);;Text Files (*.txt)",
+			"HTML Files (*.html *.htm);;All Files (*)",
 			options=options
 		)
 		if file_name:
-			print(f"Selected file: {file_name}")
+			try:
+				with open(file_name, "r", encoding="utf-8") as file:
+					content = file.read()
+					self.textEdit.setHtml(content)
+					print(f"Loaded file: {file_name}")
+			except Exception as e:
+				print(f"Error loading file: {e}")
 
 	def saveFile(self):
 		options = QFileDialog.Options()
@@ -69,16 +75,24 @@ class MainWindow(QMainWindow):
 			self,
 			"Save File",
 			"",
-			"All Files (*);;Text Files (*.txt)",
+			"HTML Files (*.html *.htm);;All Files (*)",
 			options=options
 		)
 		if file_name:
-			print(f"File to save: {file_name}")
+			try:
+				with open(file_name, "w", encoding="utf-8") as file:
+					content = self.textEdit.toHtml()
+					file.write(content)
+					print(f"Saved file: {file_name}")
+			except Exception as e:
+				print(f"Error saving file: {e}")
 
 
 	def quitApp(self):
-		print("quit app")
-		self.close()
+		sys.exit()
+
+	
+		
 
 
 	

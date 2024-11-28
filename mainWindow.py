@@ -93,6 +93,11 @@ class MainWindow(QMainWindow):
 		if result:
 			sys.exit()
 
+	def closeEvent(self, event):
+		if self.confirmExit():
+			event.accept()  
+		else:
+			event.ignore()
 
 	def confirmExit(self):
 		reply = QMessageBox.question(

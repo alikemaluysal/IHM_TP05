@@ -94,10 +94,10 @@ class MainWindow(QMainWindow):
         else:
             self.statusBar().showMessage("No text selected")
 
+
     def quitApp(self):
-        """Handle the Quit action."""
-        if self.confirmExit():
             self.close()
+		
 
     def closeEvent(self, event):
         """Intercept the window close event for confirmation."""

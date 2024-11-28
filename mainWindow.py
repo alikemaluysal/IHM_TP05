@@ -89,9 +89,25 @@ class MainWindow(QMainWindow):
 
 
 	def quitApp(self):
-		sys.exit()
+		result = self.confirmExit()
+		if result:
+			sys.exit()
 
-	
+
+	def confirmExit(self):
+		reply = QMessageBox.question(
+			self,
+			"Confirm Exit",
+			"Are you sure you want to exit?",
+			QMessageBox.Yes | QMessageBox.No,
+			QMessageBox.No
+		)
+		if reply == QMessageBox.Yes:
+			print("Exiting application...")
+			return True
+		else:
+			print("Exit canceled.")
+			return False
 		
 
 

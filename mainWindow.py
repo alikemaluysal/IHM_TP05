@@ -32,8 +32,11 @@ class MainWindow(QMainWindow):
 		file_menu.addAction(copy_action)
 		file_menu.addAction(quit_action)
 
+
 		toolbar = QToolBar("Toolbar")
 		self.addToolBar(toolbar)
+
+
 		toolbar.addAction(open_action)
 		toolbar.addAction(save_action)
 		toolbar.addAction(copy_action)
@@ -61,13 +64,13 @@ class MainWindow(QMainWindow):
 			options=options
 		)
 		if file_name:
-			try:
-				with open(file_name, "r", encoding="utf-8") as file:
-					content = file.read()
-					self.textEdit.setHtml(content)
-					print(f"Loaded file: {file_name}")
-			except Exception as e:
-				print(f"Error loading file: {e}")
+			file = QFile(file_name)
+			if file.open(QFile.ReadOnly | QFile.Text):
+					stream = QTextStream(file)
+					content = stream.readAll()
+					self.textEdit.setHtml(content) 
+			else:
+				QMessageBox.critical(self, "Error", f"Unable to open file: {file_name}")
 
 	def saveFile(self):
 		options = QFileDialog.Options()
@@ -79,13 +82,14 @@ class MainWindow(QMainWindow):
 			options=options
 		)
 		if file_name:
-			try:
-				with open(file_name, "w", encoding="utf-8") as file:
-					content = self.textEdit.toHtml()
-					file.write(content)
-					print(f"Saved file: {file_name}")
-			except Exception as e:
-				print(f"Error saving file: {e}")
+			file = QFile(file_name)
+			if file.open(QFile.WriteOnly | QFile.Text):
+					stream = QTextStream(file)
+					content = self.textEdit.toHtml() 
+					stream << content
+			else:
+				QMessageBox.critical(self, "Error", f"Unable to save file: {file_name}")
+
 
 
 	def quitApp(self):

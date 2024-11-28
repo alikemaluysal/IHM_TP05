@@ -15,10 +15,12 @@ class MainWindow(QMainWindow):
 		open_action = QAction(QIcon("open.png"), "Open", self)
 		open_action.setShortcut("Ctrl+O")
 		open_action.setStatusTip("Open")
+		open_action.triggered.connect(self.openFile)
 
 		save_action = QAction(QIcon("save.png"), "Save", self)
 		save_action.setShortcut("Ctrl+S")
 		save_action.setStatusTip("Save")
+		save_action.triggered.connect(self.saveFile)
 
 		copy_action = QAction(QIcon("copy.png"), "Copy", self)
 		copy_action.setShortcut("Ctrl+C")
@@ -27,7 +29,7 @@ class MainWindow(QMainWindow):
 		quit_action = QAction(QIcon("quit.png"), "Quit", self)
 		quit_action.setShortcut("Ctrl+Q")
 		quit_action.setStatusTip("Quit")
-		quit_action.triggered.connect(self.close)
+		quit_action.triggered.connect(self.quitApp)
 
 
 		file_menu.addAction(open_action)
@@ -47,6 +49,17 @@ class MainWindow(QMainWindow):
 		self.setCentralWidget(textEdit)
 
 		self.statusBar().showMessage("Ready")
+
+
+	def openFile(self):
+		print("open file")
+
+	def saveFile(self):
+		print("save file")
+
+	def quitApp(self):
+		print("quit app")
+
 	
 
 

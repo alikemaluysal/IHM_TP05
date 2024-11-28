@@ -1,7 +1,15 @@
+from PyQt5.QtWidgets import QApplication, QMainWindow
 import sys
 
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()  
+
 def main(args):
-    print("Arguments reçus :", args)
+    app = QApplication(args) 
+    window = MainWindow()  
+    window.show() 
+    sys.exit(app.exec_()) 
 
 if __name__ == "__main__":
     main(sys.argv)

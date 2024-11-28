@@ -52,13 +52,34 @@ class MainWindow(QMainWindow):
 
 
 	def openFile(self):
-		print("open file")
+		options = QFileDialog.Options()
+		file_name, _ = QFileDialog.getOpenFileName(
+			self,
+			"Open File",
+			"",
+			"All Files (*);;Text Files (*.txt)",
+			options=options
+		)
+		if file_name:
+			print(f"Selected file: {file_name}")
 
 	def saveFile(self):
-		print("save file")
+		options = QFileDialog.Options()
+		file_name, _ = QFileDialog.getSaveFileName(
+			self,
+			"Save File",
+			"",
+			"All Files (*);;Text Files (*.txt)",
+			options=options
+		)
+		if file_name:
+			print(f"File to save: {file_name}")
+
 
 	def quitApp(self):
 		print("quit app")
+		self.close()
+
 
 	
 
